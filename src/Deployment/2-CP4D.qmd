@@ -1,0 +1,305 @@
+---
+title: "Cloud Pak for Data"
+format: html
+---
+
+
+## Cloud Pak for Data Install Preparation 
+
+### Download CPD-CLI
+
+The CLI can be downloaded from the following site. 
+
+https://github.com/IBM/cpd-cli/releases
+
+
+### Setup CPD-CLI Environment Variables
+
+Create a new file name ```cpd_vars.sh``` and add the following:
+
+```default
+#===============================================================================
+# Cloud Pak for Data installation variables
+#===============================================================================
+
+# ------------------------------------------------------------------------------
+# Client workstation 
+# ------------------------------------------------------------------------------
+# Set the following variables if you want to override the default behavior of the Cloud Pak for Data CLI.
+#
+# To export these variables, you must uncomment each command in this section.
+
+# export CPD_CLI_MANAGE_WORKSPACE=<enter a fully qualified directory>
+# export OLM_UTILS_LAUNCH_ARGS=<enter launch arguments>
+
+
+# ------------------------------------------------------------------------------
+# Cluster
+# ------------------------------------------------------------------------------
+
+export OCP_URL=<enter your Red Hat OpenShift Container Platform URL>
+export OPENSHIFT_TYPE=<enter your deployment type>
+export IMAGE_ARCH=<enter your cluster architecture>
+# export OCP_USERNAME=<enter your username>
+# export OCP_PASSWORD=<enter your password>
+# export OCP_TOKEN=<enter your token>
+export SERVER_ARGUMENTS="--server=${OCP_URL}"
+# export LOGIN_ARGUMENTS="--username=${OCP_USERNAME} --password=${OCP_PASSWORD}"
+# export LOGIN_ARGUMENTS="--token=${OCP_TOKEN}"
+export CPDM_OC_LOGIN="cpd-cli manage login-to-ocp ${SERVER_ARGUMENTS} ${LOGIN_ARGUMENTS}"
+export OC_LOGIN="oc login ${SERVER_ARGUMENTS} ${LOGIN_ARGUMENTS}"
+
+
+# ------------------------------------------------------------------------------
+# Proxy server
+# ------------------------------------------------------------------------------
+
+# export PROXY_HOST=<enter your proxy server hostname>
+# export PROXY_PORT=<enter your proxy server port number>
+# export PROXY_USER=<enter your proxy server username>
+# export PROXY_PASSWORD=<enter your proxy server password>
+
+
+# ------------------------------------------------------------------------------
+# Projects
+# ------------------------------------------------------------------------------
+
+export PROJECT_CERT_MANAGER=<enter your certificate manager project>
+export PROJECT_LICENSE_SERVICE=<enter your License Service project>
+export PROJECT_SCHEDULING_SERVICE=<enter your scheduling service project>
+# export PROJECT_IBM_EVENTS=<enter your IBM Events Operator project>
+# export PROJECT_PRIVILEGED_MONITORING_SERVICE=<enter your privileged monitoring service project>
+export PROJECT_CPD_INST_OPERATORS=<enter your Cloud Pak for Data operator project>
+export PROJECT_CPD_INST_OPERANDS=<enter your Cloud Pak for Data operand project>
+# export PROJECT_CPD_INSTANCE_TETHERED=<enter your tethered project>
+# export PROJECT_CPD_INSTANCE_TETHERED_LIST=<a comma-separated list of tethered projects>
+
+
+
+# ------------------------------------------------------------------------------
+# Storage
+# ------------------------------------------------------------------------------
+
+export STG_CLASS_BLOCK=<RWO-storage-class-name>
+export STG_CLASS_FILE=<RWX-storage-class-name>
+
+# ------------------------------------------------------------------------------
+# IBM Entitled Registry
+# ------------------------------------------------------------------------------
+
+export IBM_ENTITLEMENT_KEY=<enter your IBM entitlement API key>
+
+
+# ------------------------------------------------------------------------------
+# Private container registry
+# ------------------------------------------------------------------------------
+# Set the following variables if you mirror images to a private container registry.
+#
+# To export these variables, you must uncomment each command in this section.
+
+# export PRIVATE_REGISTRY_LOCATION=<enter the location of your private container registry>
+# export PRIVATE_REGISTRY_PUSH_USER=<enter the username of a user that can push to the registry>
+# export PRIVATE_REGISTRY_PUSH_PASSWORD=<enter the password of the user that can push to the registry>
+# export PRIVATE_REGISTRY_PULL_USER=<enter the username of a user that can pull from the registry>
+# export PRIVATE_REGISTRY_PULL_PASSWORD=<enter the password of the user that can pull from the registry>
+
+
+# ------------------------------------------------------------------------------
+# Cloud Pak for Data version
+# ------------------------------------------------------------------------------
+
+export VERSION=5.1.3
+
+
+# ------------------------------------------------------------------------------
+# Components
+# ------------------------------------------------------------------------------
+
+export COMPONENTS=ibm-cert-manager,ibm-licensing,scheduler,cpfs,cpd_platform
+# export COMPONENTS_TO_SKIP=<component-ID-1>,<component-ID-2>
+```
+
+The following variables will need to be updated to include the OCP URL, OpenShift type (usually self-managed unless its on a specific cloud provider), and Image archetype such as "amd64"
+
+```bash
+export OCP_URL=<enter your Red Hat OpenShift Container Platform URL>
+export OPENSHIFT_TYPE=self-managed
+export IMAGE_ARCH=amd64
+```
+
+Set the Project names for the different services, here are a few suggestions:
+```bash
+export PROJECT_CERT_MANAGER=ibm-cert-manager
+export PROJECT_LICENSE_SERVICE=cpd-license-server
+export PROJECT_SCHEDULING_SERVICE=cpd-scheduling
+export PROJECT_CPD_INST_OPERATORS=cpd-operators
+export PROJECT_CPD_INST_OPERANDS=cpd-instance
+```
+
+Set your block storage class and file storage class, such as ```ocs-storagecluster-ceph-rbd``` and ```ocs-storagecluster-cephfs``` .
+
+```bash
+export STG_CLASS_BLOCK=ocs-storagecluster-ceph-rbd
+export STG_CLASS_FILE=ocs-storagecluster-cephfs
+```
+
+Set your private registry details:
+
+```bash
+# export PRIVATE_REGISTRY_LOCATION=<enter the location of your private container registry>
+# export PRIVATE_REGISTRY_PUSH_USER=<enter the username of a user that can push to the registry>
+# export PRIVATE_REGISTRY_PUSH_PASSWORD=<enter the password of the user that can push to the registry>
+# export PRIVATE_REGISTRY_PULL_USER=<enter the username of a user that can pull from the registry>
+# export PRIVATE_REGISTRY_PULL_PASSWORD=<enter the password of the user that can pull from the registry>
+```
+
+Add your IBM Entitlement key to the following variable:
+
+```bash
+export IBM_ENTITLEMENT_KEY=<enter your IBM entitlement API key>
+```
+
+#### Source the environment variables
+
+Run the following command any time you update the environment variables file:
+
+```bash
+source cpd_vars.sh
+```
+
+
+### Log into OpenShift Cluster using CPD-CLI
+
+
+```bash
+cpd-cli manage login-to-ocp --username=${OCP_USERNAME} --password=${OCP_PASSWORD}
+```
+
+or 
+
+```bash
+cpd-cli manage login-to-ocp --username=${OCP_USERNAME} --token=${OCP_TOKEN}
+```
+
+### Create image Global Pull Secret if using IBM Entitled Registry:
+
+```bash
+cpd-cli manage add-icr-cred-to-global-pull-secret --entitled_registry_key=${IBM_ENTITLEMENT_KEY}
+```
+
+
+
+## Install CP4D Pre-Requisites
+
+### Certificate Manager & License Server
+
+The following command will install the certificate manager and the License Server:
+
+```bash
+cpd-cli manage apply-cluster-components \
+--release=${VERSION} \
+--license_acceptance=true \
+--licensing_ns=${PROJECT_LICENSE_SERVICE}
+
+```
+
+### Scheduling Service
+
+The following command will install the Scheduling service:
+
+```bash
+cpd-cli manage apply-scheduler \
+--release=${VERSION} \
+--license_acceptance=true \
+--scheduler_ns=${PROJECT_SCHEDULING_SERVICE}
+
+```
+
+### Create required namespaces
+
+The following commands will create all the necessary namespaces:
+
+```bash
+oc new-project ${PROJECT_CPD_INST_OPERATORS}
+
+```
+
+```bash
+oc new-project ${PROJECT_CPD_INST_OPERANDS}
+```
+
+
+### Apply Permissions
+
+The following commands will apply the required permissions for the CP4D Topology:
+
+```bash
+cpd-cli manage authorize-instance-topology \
+--cpd_operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+
+```
+
+
+## Install Cloud Pak for Data
+
+### Cloud Pak Foundation Services
+
+The following command will install the Cloud Pak foundation services:
+
+```bash
+cpd-cli manage setup-instance-topology \
+--release=${VERSION} \
+--cpd_operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--license_acceptance=true \
+--block_storage_class=${STG_CLASS_BLOCK}
+
+```
+
+### Install operators
+
+The following command will install the Cloud Pak for Data operators which are required to install services:
+
+```bash
+cpd-cli manage apply-olm \
+--release=${VERSION} \
+--cpd_operator_ns=${PROJECT_CPD_INST_OPERATORS} \
+--components=${COMPONENTS}
+
+```
+
+### Install operands
+
+The following command will install the Cloud Pak for Data base software.
+
+```bash
+cpd-cli manage apply-cr \
+--release=${VERSION} \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--components=cpd_platform \
+--block_storage_class=${STG_CLASS_BLOCK} \
+--file_storage_class=${STG_CLASS_FILE} \
+--license_acceptance=true
+
+```
+
+### Confirm Operands are Completed:
+
+```bash
+cpd-cli manage get-cr-status \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS}
+
+```
+
+
+### Retrieve Login Details
+
+Run the following commands to get the Admin username and password for the Cloud Pak for Data install:
+
+```bash
+cpd-cli manage get-cpd-instance-details \
+--cpd_instance_ns=${PROJECT_CPD_INST_OPERANDS} \
+--get_admin_initial_credentials=true
+
+```
