@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -227,140 +262,148 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="pre-requirements">Pre-Requirements</h2>
 <section id="install-node-feature-discovery" class="level3">
 <h3 class="anchored" data-anchor-id="install-node-feature-discovery">Install Node Feature Discovery</h3>
-<p>Go to OperatorHub</p>
-<p>Search for “Node Feature Discovery”</p>
-<p>Install</p>
+<ul>
+<li><p>Go to OperatorHub</p></li>
+<li><p>Search for “Node Feature Discovery”</p></li>
+<li><p>Install</p></li>
+</ul>
 </section>
 <section id="create-a-nodefeaturedisocvery-cr" class="level3">
 <h3 class="anchored" data-anchor-id="create-a-nodefeaturedisocvery-cr">Create a NodeFeatureDisocvery CR</h3>
-<p>Go to Installed Operators</p>
-<p>Select “Node Feature Discovery”</p>
-<p>Select the box “Provided APIs”</p>
-<p>Select “Create Instance”</p>
-<p>Review the values</p>
-<p>Select “Create”</p>
+<ul>
+<li><p>Go to Installed Operators</p></li>
+<li><p>Select “Node Feature Discovery”</p></li>
+<li><p>Select the box “Provided APIs”</p></li>
+<li><p>Select “Create Instance”</p></li>
+<li><p>Review the values</p></li>
+<li><p>Select “Create”</p></li>
+</ul>
 </section>
 <section id="install-nvidia-gpu-operator" class="level3">
 <h3 class="anchored" data-anchor-id="install-nvidia-gpu-operator">Install “Nvidia GPU Operator”</h3>
-<p>Go to OperatorHub</p>
-<p>Search for “Nvidia GPU Operator”</p>
-<p>Install</p>
+<ul>
+<li><p>Go to OperatorHub</p></li>
+<li><p>Search for “Nvidia GPU Operator”</p></li>
+<li><p>Install</p></li>
+</ul>
 </section>
 <section id="create-cluster-policy-for-nvidia-gpu-operator" class="level3">
 <h3 class="anchored" data-anchor-id="create-cluster-policy-for-nvidia-gpu-operator">Create “Cluster Policy” for Nvidia GPU Operator</h3>
-<p>Go to “Installed Operators”</p>
-<p>Click on “Nvidia GPU Operator”</p>
-<p>Select “ClusterPolicy” tab</p>
-<p>Click “Create ClusterPolicy”</p>
-<p>Click “Create”</p>
+<ul>
+<li><p>Go to “Installed Operators”</p></li>
+<li><p>Click on “Nvidia GPU Operator”</p></li>
+<li><p>Select “ClusterPolicy” tab</p></li>
+<li><p>Click “Create ClusterPolicy”</p></li>
+<li><p>Click “Create”</p></li>
+</ul>
 </section>
 <section id="install-openshift-ai" class="level3">
 <h3 class="anchored" data-anchor-id="install-openshift-ai">Install OpenShift AI</h3>
 <p>Create redhat-ods-operator project:</p>
-<pre><code>oc new-project redhat-ods-operator</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">oc</span> new-project redhat-ods-operator</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Create the rhods-operator operator group in the redhat-ods-operator project:</p>
-<pre><code>cat &lt;&lt;EOF |oc apply -f -
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: rhods-operator
-  namespace: redhat-ods-operator
-EOF</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">cat &lt;&lt;EOF |oc apply -f -</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> operators.coreos.com/v1</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> OperatorGroup</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rhods-operator</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">namespace</span><span class="kw">:</span><span class="at"> redhat-ods-operator</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="at">EOF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Create the rhods-operator operator subscription in the redhat-ods-operator project:</p>
-<pre><code>cat &lt;&lt;EOF |oc apply -f -
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
-metadata:
-  name: rhods-operator
-  namespace: redhat-ods-operator
-spec:
-  name: rhods-operator
-  channel: stable-2.13
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
-  config:
-     env:
-        - name: "DISABLE_DSC_CONFIG"
-EOF</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">cat &lt;&lt;EOF |oc apply -f -</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> operators.coreos.com/v1alpha1</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> Subscription</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rhods-operator</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">namespace</span><span class="kw">:</span><span class="at"> redhat-ods-operator</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> rhods-operator</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">channel</span><span class="kw">:</span><span class="at"> stable-2.13</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">source</span><span class="kw">:</span><span class="at"> redhat-operators</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sourceNamespace</span><span class="kw">:</span><span class="at"> openshift-marketplace</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">config</span><span class="kw">:</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="at">     </span><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">"DISABLE_DSC_CONFIG"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="at">EOF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Create a DSC Initialization (DSCInitialization) object named default-dsci in the redhat-ods-monitoring project:</p>
-<pre><code>cat &lt;&lt;EOF |oc apply -f -
-apiVersion: dscinitialization.opendatahub.io/v1
-kind: DSCInitialization
-metadata:
-  name: default-dsci
-spec:
-  applicationsNamespace: redhat-ods-applications
-  monitoring:
-    managementState: Managed
-    namespace: redhat-ods-monitoring
-  serviceMesh:
-    managementState: Removed
-  trustedCABundle:
-    managementState: Managed
-    customCABundle: ""
-EOF</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">cat &lt;&lt;EOF |oc apply -f -</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> dscinitialization.opendatahub.io/v1</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> DSCInitialization</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> default-dsci</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">applicationsNamespace</span><span class="kw">:</span><span class="at"> redhat-ods-applications</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">monitoring</span><span class="kw">:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Managed</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">namespace</span><span class="kw">:</span><span class="at"> redhat-ods-monitoring</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">serviceMesh</span><span class="kw">:</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">trustedCABundle</span><span class="kw">:</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Managed</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">customCABundle</span><span class="kw">:</span><span class="at"> </span><span class="st">""</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="at">EOF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Check the status of the rhods-operator-* pod in the redhat-ods-operator project:</p>
-<pre><code>oc get pods -n redhat-ods-operator</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">oc</span> get pods <span class="at">-n</span> redhat-ods-operator</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Confirm that the pod is Running. The command returns a response with the following format:</p>
-<pre><code>NAME                              READY   STATUS    RESTARTS   AGE
-rhods-operator-56c85d44c9-vtk74   1/1     Running   0          3h57m</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>NAME                              READY   STATUS    RESTARTS   AGE</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>rhods-operator-56c85d44c9-vtk74   1/1     Running   0          3h57m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Check the phase of the DSC Initialization (DSCInitialization) object:</p>
-<pre><code>oc get dscinitialization</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">oc</span> get dscinitialization</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Confirm that the object is Ready. The command returns a response with the following format:</p>
-<pre><code>NAME           AGE     PHASE
-default-dsci   4d18h   Ready</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>NAME           AGE     PHASE</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>default-dsci   4d18h   Ready</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Create a Data Science Cluster (DataScienceCluster) object named default-dsc:</p>
-<pre><code>cat &lt;&lt;EOF |oc apply -f -
-apiVersion: datasciencecluster.opendatahub.io/v1
-kind: DataScienceCluster
-metadata:
-  name: default-dsc
-spec:
-  components:
-    codeflare:
-      managementState: Removed
-    dashboard:
-      managementState: Removed
-    datasciencepipelines:
-      managementState: Removed
-    kserve:
-      managementState: Managed
-      defaultDeploymentMode: RawDeployment
-      serving:
-        managementState: Removed
-        name: knative-serving
-    kueue:
-      managementState: Removed
-    modelmeshserving:
-      managementState: Removed
-    ray:
-      managementState: Removed
-    trainingoperator:
-      managementState: Managed
-    trustyai:
-      managementState: Removed
-    workbenches:
-      managementState: Removed
-EOF</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">cat &lt;&lt;EOF |oc apply -f -</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apiVersion</span><span class="kw">:</span><span class="at"> datasciencecluster.opendatahub.io/v1</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kind</span><span class="kw">:</span><span class="at"> DataScienceCluster</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">name</span><span class="kw">:</span><span class="at"> default-dsc</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">spec</span><span class="kw">:</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">components</span><span class="kw">:</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">codeflare</span><span class="kw">:</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dashboard</span><span class="kw">:</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">datasciencepipelines</span><span class="kw">:</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kserve</span><span class="kw">:</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Managed</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">defaultDeploymentMode</span><span class="kw">:</span><span class="at"> RawDeployment</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">serving</span><span class="kw">:</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">name</span><span class="kw">:</span><span class="at"> knative-serving</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kueue</span><span class="kw">:</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">modelmeshserving</span><span class="kw">:</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">ray</span><span class="kw">:</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">trainingoperator</span><span class="kw">:</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Managed</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">trustyai</span><span class="kw">:</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">workbenches</span><span class="kw">:</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">managementState</span><span class="kw">:</span><span class="at"> Removed</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="at">EOF</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Wait for the Data Science Cluster object to be Ready. To check the status of the object, run:</p>
-<pre><code>oc get datasciencecluster default-dsc -o jsonpath='"{.status.phase}" {"\n"}'</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">oc</span> get datasciencecluster default-dsc <span class="at">-o</span> jsonpath=<span class="st">'"{.status.phase}" {"\n"}'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Confirm that the status of the following pods in the redhat-ods-applications project are Running: kserve-controller-manager-* pod kubeflow-training-operator-* pod odh-model-controller-* pod</p>
-<pre><code>oc get pods -n redhat-ods-applications</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">oc</span> get pods <span class="at">-n</span> redhat-ods-applications</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The command returns a response with the following format:</p>
-<pre><code>NAME                                         READY   STATUS      RESTARTS   AGE
-kserve-controller-manager-57796d5b44-sh9n5   1/1     Running     0          4m57s
-kubeflow-training-operator-7b99d5584c-rh5hb  1/1     Running     0          4m57s</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>NAME                                         READY   STATUS      RESTARTS   AGE</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>kserve-controller-manager-57796d5b44-sh9n5   1/1     Running     0          4m57s</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>kubeflow-training-operator-7b99d5584c-rh5hb  1/1     Running     0          4m57s</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Edit the inferenceservice-config configuration map in the redhat-ods-applications project: Log in to the Red Hat OpenShift Container Platform web console as a cluster administrator. From the navigation menu, select Workloads &gt; Configmaps. From the Project list, select redhat-ods-applications. Click the inferenceservice-config resource. Then, open the YAML tab. In the metadata.annotations section of the file, add opendatahub.io/managed: ‘false’:</p>
-<pre><code>metadata:
-  annotations:
-    internal.config.kubernetes.io/previousKinds: ConfigMap
-    internal.config.kubernetes.io/previousNames: inferenceservice-config
-    internal.config.kubernetes.io/previousNamespaces: opendatahub
-    opendatahub.io/managed: 'false'</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">metadata</span><span class="kw">:</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">annotations</span><span class="kw">:</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">internal.config.kubernetes.io/previousKinds</span><span class="kw">:</span><span class="at"> ConfigMap</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">internal.config.kubernetes.io/previousNames</span><span class="kw">:</span><span class="at"> inferenceservice-config</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">internal.config.kubernetes.io/previousNamespaces</span><span class="kw">:</span><span class="at"> opendatahub</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">opendatahub.io/managed</span><span class="kw">:</span><span class="at"> </span><span class="st">'false'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Find the following entry in the file:</p>
-<pre><code>"domainTemplate": "{{ .Name }}-{{ .Namespace }}.{{ .IngressDomain }}",</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">"domainTemplate"</span><span class="kw">:</span><span class="at"> </span><span class="st">"{{ .Name }}-{{ .Namespace }}.{{ .IngressDomain }}"</span><span class="er">,</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Update the value of the domainTemplate field to “example.com”:</p>
-<pre><code>"domainTemplate": "example.com",</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">"domainTemplate"</span><span class="kw">:</span><span class="at"> </span><span class="st">"example.com"</span><span class="er">,</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>click save.</p>
 </section>
 </section>
