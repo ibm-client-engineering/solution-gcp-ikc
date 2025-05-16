@@ -5,4 +5,53 @@ format: html
 
 ## Pre-Requirements
 
+Internet access for OpenShift Container Platform
 
+In OpenShift Container Platform 4.14, you require access to the Internet to install your cluster.
+
+You must have Internet access to:
+
+* Access the Red Hat OpenShift Cluster Manager page to download the installation program and perform subscription management. If the cluster has Internet access and you do not disable Telemetry, that service automatically entitles your cluster.
+* Access Quay.io to obtain the packages that are required to install your cluster.
+* Obtain the packages that are required to perform cluster updates.
+* URLs listed below should be accessible from all the cluster nodes at port 443 and 80.
+
+| URL | Function |
+|:--------------------|-------------------------------|
+| registry.redhat.io | Provides core container images |
+| quay.io | Provides core container images |
+| *.quay.io | Provides core container images |
+| sso.redhat.com | The https://console.redhat.com/openshift site uses authentication from sso.redhat.com |
+| openshift.org | Provides Red Hat Enterprise Linux CoreOS (RHCOS) images |
+| mirror.openshift.com | Required to access mirrored installation content and images. This site is also a source of release image signatures, although the Cluster Version Operator needs only a single functioning source.|
+| storage.googleapis.com/openshift-release | A source of release image signatures, although the Cluster Version Operator needs only a single functioning source. |
+| api.openshift.com | Required both for your cluster token and to check if updates are available for the cluster. |
+| cp.icr.io | IBM Cloud Paks content |
+| icr.io | IBM Cloud Paks content |
+| docker.io | IBM Cloud Paks content |
+| dd0.icr.io | IBM Cloud Paks content |
+| dd2.icr.io | IBM Cloud Paks content |
+| dd4.icr.io | IBM Cloud Paks content |
+| dd6.icr.io| IBM Cloud Paks content |
+| https://github.com/IBM/cloud-pak-cli/releases | Cloud Pak CLI |
+| https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ | OpenShift oc, oc-mirror and podman CLI |
+| https://github.com/IBM/cloud-pak/tree/master/repo/case | IBM Cloud Pak CASE files |
+| myibm.ibm.com | IBM Registry API key access |
+| nvcr.io | Required to provide containerized GPUaccelerated software for AI, machine learning, deep learning, and highperformance computing (HPC) workloads. |
+| https://www.ibm.com/software/passportadvantage/pao_customer.html | Download software and order software, View Proof of Entitlement certificates. |
+
+
+
+| Port | Back-end machines (pool members) | Internal | External | Description |
+|------|-----------------------------------|-----------|----------|----------------|
+| 6443 | Bootstrap and control plane. You remove the bootstrap machine from the load balancer after the bootstrap machine initializes the cluster control plane. You must configure the /readyz endpoint for the API server health check probe.| X | X | Kubernetes API server |
+| 22623 | Bootstrap and control plane. You remove the bootstrap machine from the load balancer after the bootstrap machine initializes the cluster control plane. | X |  | Machine config server |
+
+:API Load balancer To be determined {#tbl-first}
+
+| Port | Back-end machines (pool members) | Internal | External | Description |
+|------|-----------------------------------|-----------|----------|----------------|
+| 443 | The machines that run the Ingress router pods, compute, or worker, by default. | X | X | HTTPS traffic |
+| 80 | The machines that run the Ingress router pods, compute, or worker, by default. | X | X | HTTP traffic |
+
+:Application Ingress Load balancer To be determined {#tbl-second}
