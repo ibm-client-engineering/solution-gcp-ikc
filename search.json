@@ -1,5 +1,27 @@
 [
   {
+    "objectID": "src/Deployment/1-OpenShift.html",
+    "href": "src/Deployment/1-OpenShift.html",
+    "title": "Step One",
+    "section": "",
+    "text": "Internet access for OpenShift Container Platform\nIn OpenShift Container Platform 4.14, you require access to the Internet to install your cluster.\nYou must have Internet access to:\n\nAccess the Red Hat OpenShift Cluster Manager page to download the installation program and perform subscription management. If the cluster has Internet access and you do not disable Telemetry, that service automatically entitles your cluster.\nAccess Quay.io to obtain the packages that are required to install your cluster.\nObtain the packages that are required to perform cluster updates.\nURLs listed below should be accessible from all the cluster nodes at port 443 and 80.\n\n\n\n\n\n\n\n\nURL\nFunction\n\n\n\n\nregistry.redhat.io\nProvides core container images\n\n\nquay.io\nProvides core container images\n\n\n*.quay.io\nProvides core container images\n\n\nsso.redhat.com\nThe https://console.redhat.com/openshift site uses authentication from sso.redhat.com\n\n\nopenshift.org\nProvides Red Hat Enterprise Linux CoreOS (RHCOS) images\n\n\nmirror.openshift.com\nRequired to access mirrored installation content and images. This site is also a source of release image signatures, although the Cluster Version Operator needs only a single functioning source.\n\n\nstorage.googleapis.com/openshift-release\nA source of release image signatures, although the Cluster Version Operator needs only a single functioning source.\n\n\napi.openshift.com\nRequired both for your cluster token and to check if updates are available for the cluster.\n\n\ncp.icr.io\nIBM Cloud Paks content\n\n\nicr.io\nIBM Cloud Paks content\n\n\ndocker.io\nIBM Cloud Paks content\n\n\ndd0.icr.io\nIBM Cloud Paks content\n\n\ndd2.icr.io\nIBM Cloud Paks content\n\n\ndd4.icr.io\nIBM Cloud Paks content\n\n\ndd6.icr.io\nIBM Cloud Paks content\n\n\nhttps://github.com/IBM/cloud-pak-cli/releases\nCloud Pak CLI\n\n\nhttps://mirror.openshift.com/pub/openshift-v4/x86_64/clients/\nOpenShift oc, oc-mirror and podman CLI\n\n\nhttps://github.com/IBM/cloud-pak/tree/master/repo/case\nIBM Cloud Pak CASE files\n\n\nmyibm.ibm.com\nIBM Registry API key access\n\n\nnvcr.io\nRequired to provide containerized GPUaccelerated software for AI, machine learning, deep learning, and highperformance computing (HPC) workloads.\n\n\nhttps://www.ibm.com/software/passportadvantage/pao_customer.html\nDownload software and order software, View Proof of Entitlement certificates.\n\n\n\n\n\n\nTable 1: API Load balancer To be determined\n\n\n\n\n\n\n\n\n\n\n\n\nPort\nBack-end machines (pool members)\nInternal\nExternal\nDescription\n\n\n\n\n6443\nBootstrap and control plane. You remove the bootstrap machine from the load balancer after the bootstrap machine initializes the cluster control plane. You must configure the /readyz endpoint for the API server health check probe.\nX\nX\nKubernetes API server\n\n\n22623\nBootstrap and control plane. You remove the bootstrap machine from the load balancer after the bootstrap machine initializes the cluster control plane.\nX\n\nMachine config server\n\n\n\n\n\n\n\n\n\nTable 2: Application Ingress Load balancer To be determined\n\n\n\n\n\n\n\n\n\n\n\n\nPort\nBack-end machines (pool members)\nInternal\nExternal\nDescription\n\n\n\n\n443\nThe machines that run the Ingress router pods, compute, or worker, by default.\nX\nX\nHTTPS traffic\n\n\n80\nThe machines that run the Ingress router pods, compute, or worker, by default.\nX\nX\nHTTP traffic",
+    "crumbs": [
+      "Deployment",
+      "OpenShift"
+    ]
+  },
+  {
+    "objectID": "src/Deployment/1-OpenShift.html#pre-requirements",
+    "href": "src/Deployment/1-OpenShift.html#pre-requirements",
+    "title": "Step One",
+    "section": "",
+    "text": "Internet access for OpenShift Container Platform\nIn OpenShift Container Platform 4.14, you require access to the Internet to install your cluster.\nYou must have Internet access to:\n\nAccess the Red Hat OpenShift Cluster Manager page to download the installation program and perform subscription management. If the cluster has Internet access and you do not disable Telemetry, that service automatically entitles your cluster.\nAccess Quay.io to obtain the packages that are required to install your cluster.\nObtain the packages that are required to perform cluster updates.\nURLs listed below should be accessible from all the cluster nodes at port 443 and 80.\n\n\n\n\n\n\n\n\nURL\nFunction\n\n\n\n\nregistry.redhat.io\nProvides core container images\n\n\nquay.io\nProvides core container images\n\n\n*.quay.io\nProvides core container images\n\n\nsso.redhat.com\nThe https://console.redhat.com/openshift site uses authentication from sso.redhat.com\n\n\nopenshift.org\nProvides Red Hat Enterprise Linux CoreOS (RHCOS) images\n\n\nmirror.openshift.com\nRequired to access mirrored installation content and images. This site is also a source of release image signatures, although the Cluster Version Operator needs only a single functioning source.\n\n\nstorage.googleapis.com/openshift-release\nA source of release image signatures, although the Cluster Version Operator needs only a single functioning source.\n\n\napi.openshift.com\nRequired both for your cluster token and to check if updates are available for the cluster.\n\n\ncp.icr.io\nIBM Cloud Paks content\n\n\nicr.io\nIBM Cloud Paks content\n\n\ndocker.io\nIBM Cloud Paks content\n\n\ndd0.icr.io\nIBM Cloud Paks content\n\n\ndd2.icr.io\nIBM Cloud Paks content\n\n\ndd4.icr.io\nIBM Cloud Paks content\n\n\ndd6.icr.io\nIBM Cloud Paks content\n\n\nhttps://github.com/IBM/cloud-pak-cli/releases\nCloud Pak CLI\n\n\nhttps://mirror.openshift.com/pub/openshift-v4/x86_64/clients/\nOpenShift oc, oc-mirror and podman CLI\n\n\nhttps://github.com/IBM/cloud-pak/tree/master/repo/case\nIBM Cloud Pak CASE files\n\n\nmyibm.ibm.com\nIBM Registry API key access\n\n\nnvcr.io\nRequired to provide containerized GPUaccelerated software for AI, machine learning, deep learning, and highperformance computing (HPC) workloads.\n\n\nhttps://www.ibm.com/software/passportadvantage/pao_customer.html\nDownload software and order software, View Proof of Entitlement certificates.\n\n\n\n\n\n\nTable 1: API Load balancer To be determined\n\n\n\n\n\n\n\n\n\n\n\n\nPort\nBack-end machines (pool members)\nInternal\nExternal\nDescription\n\n\n\n\n6443\nBootstrap and control plane. You remove the bootstrap machine from the load balancer after the bootstrap machine initializes the cluster control plane. You must configure the /readyz endpoint for the API server health check probe.\nX\nX\nKubernetes API server\n\n\n22623\nBootstrap and control plane. You remove the bootstrap machine from the load balancer after the bootstrap machine initializes the cluster control plane.\nX\n\nMachine config server\n\n\n\n\n\n\n\n\n\nTable 2: Application Ingress Load balancer To be determined\n\n\n\n\n\n\n\n\n\n\n\n\nPort\nBack-end machines (pool members)\nInternal\nExternal\nDescription\n\n\n\n\n443\nThe machines that run the Ingress router pods, compute, or worker, by default.\nX\nX\nHTTPS traffic\n\n\n80\nThe machines that run the Ingress router pods, compute, or worker, by default.\nX\nX\nHTTP traffic",
+    "crumbs": [
+      "Deployment",
+      "OpenShift"
+    ]
+  },
+  {
     "objectID": "src/Deployment/2-CP4D.html",
     "href": "src/Deployment/2-CP4D.html",
     "title": "Cloud Pak for Data",
@@ -44,18 +66,11 @@
     ]
   },
   {
-    "objectID": "src/solution_overview/troubleshooting.html",
-    "href": "src/solution_overview/troubleshooting.html",
-    "title": "Step Three",
+    "objectID": "src/landing_page/landing_page.html",
+    "href": "src/landing_page/landing_page.html",
+    "title": "Project Name",
     "section": "",
-    "text": "Step Three Solution"
-  },
-  {
-    "objectID": "src/key-takeaway.html",
-    "href": "src/key-takeaway.html",
-    "title": "Key Takeaways",
-    "section": "",
-    "text": "Best Practices\n(Capture the main takeaways and results of the project)"
+    "text": "Project Name\nSubtitle\n\n\nOur Documentation \n\n\n\n\n\nNext Steps\n\n\n\nL ink 1\n\n\n\nLink 2"
   },
   {
     "objectID": "index.html",
@@ -88,29 +103,11 @@
     ]
   },
   {
-    "objectID": "src/landing_page/landing_page.html",
-    "href": "src/landing_page/landing_page.html",
-    "title": "Project Name",
+    "objectID": "src/key-takeaway.html",
+    "href": "src/key-takeaway.html",
+    "title": "Key Takeaways",
     "section": "",
-    "text": "Project Name\nSubtitle\n\n\nOur Documentation \n\n\n\n\n\nNext Steps\n\n\n\nL ink 1\n\n\n\nLink 2"
-  },
-  {
-    "objectID": "src/solution_overview/prepare.html",
-    "href": "src/solution_overview/prepare.html",
-    "title": "Step One",
-    "section": "",
-    "text": "Step One Solution - The What\n(Summarize the overarching technical solution. Explain the reasoning and strategic considerations behind the solution)"
-  },
-  {
-    "objectID": "src/solution_overview/01-Architecture.html",
-    "href": "src/solution_overview/01-Architecture.html",
-    "title": "Step Two",
-    "section": "",
-    "text": "Step Two Solution\nPhasellus at risus egestas, ultricies tortor efficitur, auctor augue. Suspendisse finibus maximus dui nec condimentum. Proin fringilla efficitur vehicula. Suspendisse sem lacus, iaculis quis erat et, facilisis sagittis est. Sed sapien justo, condimentum vitae aliquet sed, faucibus at ex. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce placerat ante eget diam tincidunt, vitae tincidunt sapien malesuada. Nullam ullamcorper justo eros. Duis ultricies aliquam dui, id aliquam lorem congue vitae. Ut porttitor, tellus eu dignissim semper, turpis nunc cursus libero, sed placerat est dui non enim.\nVestibulum libero dolor, vehicula vitae risus non, consequat gravida neque. Maecenas a posuere sem. Quisque dignissim porta pretium. Nam mattis lacus commodo lobortis consequat. Vestibulum at massa a quam egestas accumsan. Fusce ac neque eu libero maximus aliquet id quis metus. In sodales neque ut turpis iaculis vehicula. Sed volutpat, tellus non laoreet aliquet, risus felis ornare dolor, interdum venenatis turpis metus in lorem. Aliquam quam ligula, porttitor non ultrices ac, lacinia ullamcorper massa. Integer molestie eleifend urna, imperdiet dignissim tellus malesuada ac. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tristique sem ac purus interdum, vitae pharetra erat fringilla. Integer non nunc a eros porttitor rutrum. Suspendisse ut libero urna. Vestibulum vitae est at diam vestibulum aliquet. Donec porta nunc eget lobortis mollis.\nVestibulum luctus sodales odio, at luctus lacus lobortis a. Aliquam vulputate id turpis sit amet bibendum. Donec a dignissim tellus, vel vehicula erat. Pellentesque hendrerit ex magna, at dictum est pretium a. Vivamus faucibus ipsum lectus, ut elementum diam interdum scelerisque. Cras magna sapien, tincidunt quis eleifend at, tincidunt non eros. Aliquam ac augue turpis.",
-    "crumbs": [
-      "Deployment",
-      "Architecture"
-    ]
+    "text": "Best Practices\n(Capture the main takeaways and results of the project)"
   },
   {
     "objectID": "src/Deployment/3-IKC.html",

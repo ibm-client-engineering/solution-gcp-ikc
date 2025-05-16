@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../src/Deployment/2-CP4D.html" rel="next">
-<link href="../../src/solution_overview/01-Architecture.html" rel="prev">
+<link href="../../src/solution_overview/01-Architecture.qmd" rel="prev">
 <link href="../../images/bee.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -126,7 +126,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/solution_overview/01-Architecture.html">Deployment</a></li><li class="breadcrumb-item"><a href="../../src/Deployment/1-OpenShift.html">OpenShift</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/solution_overview/01-Architecture.qmd">Deployment</a></li><li class="breadcrumb-item"><a href="../../src/Deployment/1-OpenShift.html">OpenShift</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -155,7 +155,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../src/solution_overview/01-Architecture.html" class="sidebar-item-text sidebar-link">
+  <a href="../../src/solution_overview/01-Architecture.qmd" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Architecture</span></a>
   </div>
 </li>
@@ -196,7 +196,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/solution_overview/01-Architecture.html">Deployment</a></li><li class="breadcrumb-item"><a href="../../src/Deployment/1-OpenShift.html">OpenShift</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../src/solution_overview/01-Architecture.qmd">Deployment</a></li><li class="breadcrumb-item"><a href="../../src/Deployment/1-OpenShift.html">OpenShift</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Step One</h1>
 </div>
@@ -217,6 +217,199 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="pre-requirements" class="level2">
 <h2 class="anchored" data-anchor-id="pre-requirements">Pre-Requirements</h2>
+<p>Internet access for OpenShift Container Platform</p>
+<p>In OpenShift Container Platform 4.14, you require access to the Internet to install your cluster.</p>
+<p>You must have Internet access to:</p>
+<ul>
+<li>Access the Red Hat OpenShift Cluster Manager page to download the installation program and perform subscription management. If the cluster has Internet access and you do not disable Telemetry, that service automatically entitles your cluster.</li>
+<li>Access Quay.io to obtain the packages that are required to install your cluster.</li>
+<li>Obtain the packages that are required to perform cluster updates.</li>
+<li>URLs listed below should be accessible from all the cluster nodes at port 443 and 80.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">URL</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">registry.redhat.io</td>
+<td>Provides core container images</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quay.io</td>
+<td>Provides core container images</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">*.quay.io</td>
+<td>Provides core container images</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sso.redhat.com</td>
+<td>The https://console.redhat.com/openshift site uses authentication from sso.redhat.com</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">openshift.org</td>
+<td>Provides Red Hat Enterprise Linux CoreOS (RHCOS) images</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mirror.openshift.com</td>
+<td>Required to access mirrored installation content and images. This site is also a source of release image signatures, although the Cluster Version Operator needs only a single functioning source.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">storage.googleapis.com/openshift-release</td>
+<td>A source of release image signatures, although the Cluster Version Operator needs only a single functioning source.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">api.openshift.com</td>
+<td>Required both for your cluster token and to check if updates are available for the cluster.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cp.icr.io</td>
+<td>IBM Cloud Paks content</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">icr.io</td>
+<td>IBM Cloud Paks content</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">docker.io</td>
+<td>IBM Cloud Paks content</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dd0.icr.io</td>
+<td>IBM Cloud Paks content</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dd2.icr.io</td>
+<td>IBM Cloud Paks content</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dd4.icr.io</td>
+<td>IBM Cloud Paks content</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">dd6.icr.io</td>
+<td>IBM Cloud Paks content</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">https://github.com/IBM/cloud-pak-cli/releases</td>
+<td>Cloud Pak CLI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/</td>
+<td>OpenShift oc, oc-mirror and podman CLI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">https://github.com/IBM/cloud-pak/tree/master/repo/case</td>
+<td>IBM Cloud Pak CASE files</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">myibm.ibm.com</td>
+<td>IBM Registry API key access</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nvcr.io</td>
+<td>Required to provide containerized GPUaccelerated software for AI, machine learning, deep learning, and highperformance computing (HPC) workloads.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">https://www.ibm.com/software/passportadvantage/pao_customer.html</td>
+<td>Download software and order software, View Proof of Entitlement certificates.</td>
+</tr>
+</tbody>
+</table>
+<div id="tbl-first" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-first-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: API Load balancer To be determined
+</figcaption>
+<div aria-describedby="tbl-first-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 44%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Port</th>
+<th>Back-end machines (pool members)</th>
+<th>Internal</th>
+<th>External</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>6443</td>
+<td>Bootstrap and control plane. You remove the bootstrap machine from the load balancer after the bootstrap machine initializes the cluster control plane. You must configure the /readyz endpoint for the API server health check probe.</td>
+<td>X</td>
+<td>X</td>
+<td>Kubernetes API server</td>
+</tr>
+<tr class="even">
+<td>22623</td>
+<td>Bootstrap and control plane. You remove the bootstrap machine from the load balancer after the bootstrap machine initializes the cluster control plane.</td>
+<td>X</td>
+<td></td>
+<td>Machine config server</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<div id="tbl-second" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-second-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Application Ingress Load balancer To be determined
+</figcaption>
+<div aria-describedby="tbl-second-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 44%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Port</th>
+<th>Back-end machines (pool members)</th>
+<th>Internal</th>
+<th>External</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>443</td>
+<td>The machines that run the Ingress router pods, compute, or worker, by default.</td>
+<td>X</td>
+<td>X</td>
+<td>HTTPS traffic</td>
+</tr>
+<tr class="even">
+<td>80</td>
+<td>The machines that run the Ingress router pods, compute, or worker, by default.</td>
+<td>X</td>
+<td>X</td>
+<td>HTTP traffic</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
 
 
 </section>
@@ -623,7 +816,7 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../src/solution_overview/01-Architecture.html" class="pagination-link" aria-label="Architecture">
+      <a href="../../src/solution_overview/01-Architecture.qmd" class="pagination-link" aria-label="Architecture">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Architecture</span>
       </a>          
   </div>
