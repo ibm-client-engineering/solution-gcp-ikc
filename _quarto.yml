@@ -37,8 +37,6 @@ website:
         - href: index.qmd
         - section: Deployment
           contents:
-          - text: Architecture 
-            href: src/solution_overview/01-Architecture.qmd
           - text: OpenShift
             href: src/Deployment/1-OpenShift.qmd
           - text: Cloud Pak for Data Installation
